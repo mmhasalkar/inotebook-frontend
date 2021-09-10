@@ -7,7 +7,6 @@ const NoteState = (props) => {
     const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjEzNGYxNmExOTI4MTczNDBjN2Q0ZWNkIn0sImlhdCI6MTYzMTAxODA1Nn0.p_qc60emhiuvmBQHMjS3ojGFz1fkSS4Rpyoo0vNIsdE"
 
     const notesInitial = []
-
     const [notes, setNotes] = useState(notesInitial)
 
     // Function to fetch all notes
