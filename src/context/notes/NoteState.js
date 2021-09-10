@@ -68,7 +68,20 @@ const NoteState = (props) => {
         });
 
         const savedNote = await response.json();
-        console.log("Saved note: ", savedNote);
+
+        let newNotes = JSON.parse(JSON.stringify(notes))
+        
+        for (let index = 0; index < newNotes.length; index++) {
+            const element = newNotes[index];
+            if (element._id === id) {
+                newNotes[index].title = savedNote.note.title
+                newNotes[index].description = savedNote.note.description
+                newNotes[index].tag = savedNote.note.tag
+                break;
+            }
+        }
+
+        setNotes(newNotes)
     }
 
     return (

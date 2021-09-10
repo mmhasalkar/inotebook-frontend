@@ -5,23 +5,25 @@ import NoteItem from './NoteItem';
 
 const Notes = () => {
     const context = useContext(noteContext);
-    const { notes, fetchNotes } = context;
+    const { notes, fetchNotes, editNote } = context;
 
     useEffect(() => {
         fetchNotes();
         // eslint-disable-next-line
     }, [])
-    const ref = useRef(null)
-    const [note, setNote] = useState({eTitle: '', eDescription: '', eTag: ''})
+    const refBtnLauncModal = useRef(null)
+    const refBtnCloseModal = useRef(null)
+
+    const [note, setNote] = useState({eId: '', eTitle: '', eDescription: '', eTag: ''})
 
     const updateNote = (curNote) => {
-        ref.current.click();
-        setNote({eTitle: curNote.title, eDescription: curNote.description, eTag: curNote.tag})
+        refBtnLauncModal.current.click()
+        setNote({eId: curNote._id, eTitle: curNote.title, eDescription: curNote.description, eTag: curNote.tag})
     }
 
     const handleSaveChanges = (e) => {
-        e.preventDefault()
-        console.log("Updating note...");
+        editNote(note.eId, note.eTitle, note.eDescription, note.eTag)
+        refBtnCloseModal.current.click()
     }
 
     const handleInputChange = (e) => {
@@ -31,7 +33,7 @@ const Notes = () => {
     return (
         <>
             <AddNote />
-            <button type="button" className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal" ref={ref}>
+            <button type="button" className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal" ref={refBtnLauncModal}>
                 Launch modal
             </button>
 
@@ -59,7 +61,7 @@ const Notes = () => {
                             </form>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" ref={refBtnCloseModal}>Close</button>
                             <button type="button" className="btn btn-primary" onClick={handleSaveChanges}>Save changes</button>
                         </div>
                     </div>
