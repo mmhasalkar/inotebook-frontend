@@ -1,8 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
+import noteContext from '../context/notes/noteContext';
 
 const SignUp = () => {
     const host = "http://localhost:5000"
+
+    const context = useContext(noteContext);
+    const { showAlert } = context;
 
     // eslint-disable-next-line
     const [creds, setCreds] = useState({ name: '', email: '', password: '', cPassword: '' })
@@ -25,9 +29,10 @@ const SignUp = () => {
 
             if (data.success) {
                 localStorage.setItem("token", data.authtoken)
+                showAlert("Logged in successfully!", "success")
                 history.push("/")
             } else {
-                alert(data.error)
+                showAlert(data.error, "danger")
             }
         }
     }
@@ -37,7 +42,7 @@ const SignUp = () => {
     }
 
     return (
-        <div>
+        <div className="my-3">
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="name" className="form-label">Your Name</label>

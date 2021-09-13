@@ -8,6 +8,17 @@ const NoteState = (props) => {
 
     const notesInitial = []
     const [notes, setNotes] = useState(notesInitial)
+    const [alert, setAlert] = useState(null);
+
+    // Function to display alerts
+    const showAlert = (message, type) => {
+        setAlert({
+            msg: message,
+            type: type
+        });
+
+        setTimeout(() => setAlert(null), 2000);
+    }
 
     // Function to fetch all notes
     const fetchNotes = async () => {
@@ -38,6 +49,7 @@ const NoteState = (props) => {
         const savedNote = await response.json();
         
         setNotes(notes.concat(savedNote));
+        showAlert("Note added successfully!", "success")
     }
 
     // Function to delete a note
@@ -50,6 +62,7 @@ const NoteState = (props) => {
         console.log("Note deleted:", await response.json());
         const newNotes = notes.filter(note => note._id !== id)
         setNotes(newNotes);
+        showAlert("Note deleted successfully!", "success")
     }
 
     // Function to edit a note
@@ -81,10 +94,11 @@ const NoteState = (props) => {
         }
 
         setNotes(newNotes)
+        showAlert("Note updated successfully!", "success")
     }
 
     return (
-        <NoteContext.Provider value={{ notes, addNote, deleteNote, editNote, fetchNotes }}>
+        <NoteContext.Provider value={{ notes, addNote, deleteNote, editNote, fetchNotes, alert, showAlert }}>
             {props.children}
         </NoteContext.Provider>
     )
