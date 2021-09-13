@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
+import { useHistory } from 'react-router';
 import noteContext from '../context/notes/noteContext'
 import AddNote from './AddNote';
 import NoteItem from './NoteItem';
@@ -7,8 +8,14 @@ const Notes = () => {
     const context = useContext(noteContext);
     const { notes, fetchNotes, editNote } = context;
 
+    const history = useHistory()
+
     useEffect(() => {
-        fetchNotes();
+        if (localStorage.getItem("token")) {
+            fetchNotes();            
+        } else {
+            history.push("/login")
+        }
         // eslint-disable-next-line
     }, [])
     const refBtnLauncModal = useRef(null)
